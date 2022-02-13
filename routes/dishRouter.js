@@ -35,7 +35,7 @@ dishRouter.route('/')
     })
     .put(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         res.statusCode = 403; // operation not supported
-        res.end('PUT not supported ');
+        res.end('PUT opearation is not supported on /dishes ');
     })
     .delete(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         Dishes.remove({})
@@ -50,7 +50,7 @@ dishRouter.route('/')
 dishRouter.route('/:dishId')
     .options(cors.corsWithOptions, (req, res) => { res.sendStatus(200); })
     .get((req, res, next) => {
-        Dishes.findById(req.param.dishId)
+        Dishes.findById(req.params.dishId)
             .then((dish) => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
@@ -60,7 +60,7 @@ dishRouter.route('/:dishId')
     })
     .post(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         res.statusCode = 403; // operation not supported
-        res.end('POST not supported ');
+        res.end('POST is not supported on /dishes'+req.params.dishId);
     })
     .put(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
         Dishes.findByIdAndUpdate(req.params.dishId, {
